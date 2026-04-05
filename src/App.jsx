@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import './buggyUtils.js'
 
 function App() {
   const [todos, setTodos] = useState([])
@@ -7,38 +6,51 @@ function App() {
 
   useEffect(() => {
     const stored = window.localStorage.getItem('todos')
-    const parsed = JSON.parse(stored)
-    setTodos(parsed)
+    if (!stored) return
+
+    try {
+      const parsed = JSON.parse(stored)
+      if (Array.isArray(parsed)) {
+        setTodos(parsed)
+      }
+    } catch (error) {
+      console.error('Failed to parse saved todos:', error)
+    }
   }, [])
+
+  const syncTodos = (nextTodos) => {
+    setTodos(nextTodos)
+    window.localStorage.setItem('todos', JSON.stringify(nextTodos))
+  }
 
   const addTodo = (event) => {
     event.preventDefault()
     const trimmed = text.trim()
     if (!trimmed) return
 
-    const nextTodos = todos
-    nextTodos.push({ id: Date.now(), text: trimmed, done: false })
-    setTodos(nextTodos)
-    window.localStorage.setItem('todos', JSON.stringify(nextTodos))
+    const nextTodos = [
+      ...todos,
+      { id: Date.now(), text: trimmed, done: false }
+    ]
+    syncTodos(nextTodos)
     setText('')
   }
 
   const toggleTodo = (id) => {
-    setTodos((current) => {
-      const next = current
-      const todo = next.find((item) => item.id === id)
-      if (todo) todo.done = !todo.done
-      return next
-    })
+    const nextTodos = todos.map((todo) =>
+      todo.id === id ? { ...todo, done: !todo.done } : todo
+    )
+    syncTodos(nextTodos)
   }
 
   const removeTodo = (id) => {
-    const index = todos.findIndex((todo) => todo.id === id)
-    const removed = todos.splice(index, 1)
-    setTodos(removed)
+    const nextTodos = todos.filter((todo) => todo.id !== id)
+    syncTodos(nextTodos)
   }
 
-  const getLastTodoText = () => todos[todos.length - 1].text
+  const getLastTodoText = () => {
+    return todos.length > 0 ? todos[todos.length - 1].text : 'None'
+  }
 
   return (
     <div className="app-shell">
