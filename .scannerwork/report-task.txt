@@ -1,0 +1,6 @@
+projectKey=debugtodo
+serverUrl=http://localhost:9000
+serverVersion=26.3.0.120487
+dashboardUrl=http://localhost:9000/dashboard?id=debugtodo
+ceTaskId=073c260d-66c9-4420-8593-9cc46b1485e4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=073c260d-66c9-4420-8593-9cc46b1485e4
