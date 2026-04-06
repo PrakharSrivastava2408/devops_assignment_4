@@ -91,7 +91,7 @@ function App() {
   return (
     <div className="app-shell">
       <header>
-        <h1>🌈 Colorful Todo List</h1>
+        <h1>ToDo List</h1>
         <p>Organize your tasks with style and priority!</p>
         <div className="stats">
           <div className="progress-bar">
@@ -127,18 +127,20 @@ function App() {
           placeholder="✨ Enter a new task"
           aria-label="New todo"
         />
-        <select value={priority} onChange={(e) => setPriority(e.target.value)} className="priority-select">
-          <option value="low">🟢 Low</option>
-          <option value="medium">🟡 Medium</option>
-          <option value="high">🔴 High</option>
-        </select>
-        <select value={category} onChange={(e) => setCategory(e.target.value)} className="category-select">
-          <option value="personal">👤 Personal</option>
-          <option value="work">💼 Work</option>
-          <option value="shopping">🛒 Shopping</option>
-          <option value="health">🏥 Health</option>
-        </select>
-        <button type="submit">Add Task</button>
+        <div className="todo-form-row">
+          <select value={priority} onChange={(e) => setPriority(e.target.value)} className="priority-select">
+            <option value="low">🟢 Low</option>
+            <option value="medium">🟡 Medium</option>
+            <option value="high">🔴 High</option>
+          </select>
+          <select value={category} onChange={(e) => setCategory(e.target.value)} className="category-select">
+            <option value="personal">👤 Personal</option>
+            <option value="work">💼 Work</option>
+            <option value="shopping">🛒 Shopping</option>
+            <option value="health">🏥 Health</option>
+          </select>
+          <button type="submit">Add Task</button>
+        </div>
       </form>
 
       <ul className="todo-list">
